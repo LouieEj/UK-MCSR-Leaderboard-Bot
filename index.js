@@ -27,7 +27,7 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.commandName == "delete"){
         const name = interaction.options.get('username').value;
         try{
-            await interaction.guild.roles.fetch();
+            await interaction.guild.roles.fetch().catch((error) => console.log(error));
             if(interaction.member.roles.cache.find(r => r.name == 'admin')){
                 var found = false;
                 for (var i = 0; i < leaderboardArray.length; i++){
@@ -39,22 +39,22 @@ client.on('interactionCreate', async (interaction) => {
                 if (found){
                     leaderboardArray = leaderboardArray.filter(function(element) { return element[0] != name });
                     let channelId = await interaction.channelId;
-                    const channel = await client.channels.fetch(channelId);
+                    const channel = await client.channels.fetch(channelId).catch(() => null);
                     sendLeaderboardMessage(channelId, channel);
-                    await interaction.reply({content: `Successfully deleted ${name} from the leaderboard!`});
+                    await interaction.reply({content: `Successfully deleted ${name} from the leaderboard!`}).catch(() => null);
                 }
                 else{
-                    await interaction.reply({content: "That user is not on the leaderboard! Make sure you spelt their name correctly and remember this command is cAsE sEnSiTiVe!"});
+                    await interaction.reply({content: "That user is not on the leaderboard! Make sure you spelt their name correctly and remember this command is cAsE sEnSiTiVe!"}).catch(() => null);
                 }
             }
             else{
-                await interaction.deferReply();
-                await interaction.deleteReply();
+                await interaction.deferReply().catch(() => null);
+                await interaction.deleteReply().catch(() => null);
                 return;
             }
         }
         catch(error){
-            await interaction.reply({content: `An error occured: ${error}`});
+            await interaction.reply({content: `An error occured: ${error}`}).catch(() => null);
         }
     }
 
@@ -62,7 +62,7 @@ client.on('interactionCreate', async (interaction) => {
         const name = interaction.options.get('username').value;
         const time = interaction.options.get('time').value;
         try{
-            await interaction.guild.roles.fetch();
+            await interaction.guild.roles.fetch().catch((error) => console.log(error));
             if(interaction.member.roles.cache.find(r => r.name == 'admin')){
                 var found = false;
                 for (var i = 0; i < leaderboardArray.length; i++){
@@ -85,12 +85,12 @@ client.on('interactionCreate', async (interaction) => {
                     var seconds = splitTime[1];
                     leaderboardArray.push([name, minutes, seconds]);
                     let channelId = await interaction.channelId;
-                    const channel = await client.channels.fetch(channelId);
+                    const channel = await client.channels.fetch(channelId).catch(() => null);
                     sendLeaderboardMessage(channelId, channel);
-                    await interaction.reply({content: `Added ${name} to the leaderboard!`});
+                    await interaction.reply({content: `Added ${name} to the leaderboard!`}).catch(() => null);;
                 }
                 else{
-                    await interaction.reply({content: "That user is already on the leaderboard! You can update their time using the `/update` command."});
+                    await interaction.reply({content: "That user is already on the leaderboard! You can update their time using the `/update` command."}).catch(() => null);
                 }
             }
             else{
@@ -100,7 +100,7 @@ client.on('interactionCreate', async (interaction) => {
             }
         }
         catch(error){
-            await interaction.reply({content: `An error occured: ${error}`});
+            await interaction.reply({content: `An error occured: ${error}`}).catch(() => null);
         }
     }
 
@@ -108,7 +108,7 @@ client.on('interactionCreate', async (interaction) => {
         const name = interaction.options.get('username').value;
         const time = interaction.options.get('time').value;
         try{
-            await interaction.guild.roles.fetch();
+            await interaction.guild.roles.fetch().catch((error) => console.log(error));
             if(interaction.member.roles.cache.find(r => r.name == 'admin')){
                 var found = false;
                 for (var i = 0; i < leaderboardArray.length; i++){
@@ -123,18 +123,18 @@ client.on('interactionCreate', async (interaction) => {
                     }
                 }
                 if (found){
-                    await interaction.reply({content: `Updated the time for ${name} successfully!`});
+                    await interaction.reply({content: `Updated the time for ${name} successfully!`}).catch(() => null);;
                     let channelId = await interaction.channelId;
-                    const channel = await client.channels.fetch(channelId);
+                    const channel = await client.channels.fetch(channelId).catch(() => null);;
                     sendLeaderboardMessage(channelId, channel);
                 }
                 else{
-                    await interaction.reply({content: "That user is not already on the leaderboard! You can add them to the leaderboard using the `/add` command."});
+                    await interaction.reply({content: "That user is not already on the leaderboard! You can add them to the leaderboard using the `/add` command."}).catch(() => null);;
                 }
             }
             else{
-                await interaction.deferReply();
-                await interaction.deleteReply();
+                await interaction.deferReply().catch(() => null);;
+                await interaction.deleteReply().catch(() => null);;
                 return;
             }
         }
@@ -145,17 +145,17 @@ client.on('interactionCreate', async (interaction) => {
     
     if (interaction.commandName == "setup"){
         try{
-            await interaction.guild.roles.fetch();
+            await interaction.guild.roles.fetch().catch((error) => console.log(error));
             if(interaction.member.roles.cache.find(r => r.name == 'admin')){
-                interaction.deferReply();
-                interaction.deleteReply();
+                await interaction.deferReply().catch(() => null);
+                await interaction.deleteReply().catch(() => null);;
                 let channelId = await interaction.channelId;
-                const channel = await client.channels.fetch(channelId);
+                const channel = await client.channels.fetch(channelId).catch(() => null);;
                 await sendLeaderboardMessage(channelId, channel);
             }
             else{
-                await interaction.deferReply();
-                await interaction.deleteReply();
+                await interaction.deferReply().catch(() => null);;
+                await interaction.deleteReply().catch(() => null);;
                 return;
             }
 
